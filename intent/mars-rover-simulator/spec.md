@@ -29,9 +29,9 @@ Origine dans l'intention : « une carte plaçant les obstacles (symboles 🟩/�
 Comportement attendu : le simulateur détermine, pour chaque case de la carte fournie, si elle est libre ou occupée par un obstacle, quel que soit le jeu de symboles utilisé (🟩/🌳 ou 🟫/🪨).
 
 Scénario
-- Situation de départ : une carte utilisant l'un des deux jeux de symboles, avec une case marquée comme obstacle.
+- Situation de départ : une carte utilisant le jeu de symboles 🟩/🌳, où la case (2,4) porte le symbole 🌳 et les autres cases portent le symbole 🟩.
 - Action : le simulateur interprète cette carte.
-- Résultat attendu : manque — la correspondance exacte entre chaque symbole et son statut (case libre ou obstacle) n'est pas confirmée par le Product Owner (voir réserve R-01).
+- Résultat attendu : la case (2,4) est identifiée comme occupée par un obstacle, toutes les autres cases comme libres (🟩 = case libre, 🌳 = obstacle ; même règle pour 🟫 = case libre et 🪨 = obstacle — décision R-01).
 
 ### EX-03 — Avancer d'une case
 
@@ -71,7 +71,7 @@ Comportement attendu : sur une commande « avancer », si la case immédiatement
 Scénario
 - Situation de départ : rover en (2,3) orienté N ; la case (2,4) est un obstacle.
 - Action : liste de commandes [« avancer », « tourner à droite »].
-- Résultat attendu : après « avancer », position inchangée (2,3), direction N ; après « tourner à droite », position (2,3), direction E. (Le symbole exact représentant l'obstacle dépend de la réserve R-01.)
+- Résultat attendu : après « avancer », position inchangée (2,3), direction N ; après « tourner à droite », position (2,3), direction E. (Case (2,4) marquée 🌳 ou 🪨, conformément à la décision R-01.)
 
 ### EX-07 — Exécution séquentielle d'une liste de commandes
 
@@ -106,7 +106,7 @@ Scénario
 ## Conception proposée
 
 - **Fonction pure de simulation** : le simulateur est conçu comme une fonction sans effet de bord, prenant en entrée (point de départ, orientation initiale, carte, liste de commandes) et renvoyant en sortie (position finale, direction finale). Ce choix découle directement de l'intention (« valeur retournée par une fonction/API ») — accepté.
-- **Modèle de carte** : la carte est interprétée comme une grille 2D où chaque case est soit libre, soit occupée par un obstacle, indépendamment du jeu de symboles utilisé en entrée (🟩/🌳 ou 🟫/🪨) ; les deux jeux sont traités comme fonctionnellement équivalents une fois convertis en cases libres/obstacles. Proposition à valider avec la réserve R-01.
+- **Modèle de carte** : la carte est interprétée comme une grille 2D où chaque case est soit libre, soit occupée par un obstacle, indépendamment du jeu de symboles utilisé en entrée (🟩/🌳 ou 🟫/🪨) ; les deux jeux sont traités comme fonctionnellement équivalents une fois convertis en cases libres/obstacles : 🟩 et 🟫 représentent une case libre, 🌳 et 🪨 représentent un obstacle. Accepté (décision R-01, 2026-09-22).
 - **Modèle d'orientation** : l'orientation est une énumération cyclique (N, E, S, W) ; « tourner à droite » avance d'un cran dans ce cycle, « tourner à gauche » recule d'un cran. Proposition à valider.
 - **Convention de repère** : proposition à valider (réserve R-02) — axe x croissant vers l'est, axe y croissant vers le nord (convention cartésienne standard), utilisée uniquement pour illustrer les scénarios EX-03 et EX-07 ci-dessus.
 - **Traitement séquentiel des commandes** : chaque commande de la liste est appliquée l'une après l'autre à l'état courant (position, direction) ; une commande « avancer » vérifie l'état d'obstacle de la case cible avant de déplacer le rover, une commande de rotation ne modifie que la direction. Ce choix découle directement de l'intention — accepté.
@@ -121,8 +121,12 @@ Scénario
 Origine : l'intention mentionne des symboles d'obstacles « 🟩/🌳 ou 🟫/🪨 » sans préciser si chaque paire associe un symbole de case libre à un symbole d'obstacle, ni lequel des deux symboles de chaque paire représente l'obstacle.
 Exigences concernées : EX-02, EX-06.
 Conséquences : sans cette précision, les scénarios liés à la lecture de la carte et au blocage par obstacle ne peuvent pas indiquer de résultat observable exact.
-Décision attendue du Product Owner : confirmer (ou corriger) l'hypothèse de conception ci-dessus, à savoir que 🟩 et 🟫 représentent des cases libres et que 🌳 et 🪨 représentent des obstacles.
-Statut : ouverte.
+Décision : confirmée — 🟩 et 🟫 représentent des cases libres, 🌳 et 🪨 représentent des obstacles.
+Auteur : Product Owner.
+Date : 2026-09-22.
+Justification : confirmation directe de l'hypothèse de conception proposée, sans réserve supplémentaire.
+Éléments modifiés : scénarios EX-02 et EX-06, choix « Modèle de carte » en Conception proposée.
+Statut : résolue.
 
 ### R-02 — Convention de repère (axes et correspondance avec N/S/E/W)
 
