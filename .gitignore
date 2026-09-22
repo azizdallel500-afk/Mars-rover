@@ -216,3 +216,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Node.js / TypeScript (simulateur Mars Rover)
+node_modules/
+dist/
+
+# Fichier d'exemple du scénario de démonstration (recréé par `make run`)
+examples/demo-scenario.json
