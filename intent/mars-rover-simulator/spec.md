@@ -96,12 +96,12 @@ Scénario
 ### EX-09 — Comportement en bord de carte
 
 Origine dans l'intention : question ouverte « Comment le rover gère-t-il les bords de la carte (arrêt, erreur, wrap-around) ? »
-Comportement attendu : non déterminé.
+Comportement attendu : sur une commande « avancer », si la case cible se situe hors des limites de la carte, le rover réapparaît sur la case correspondante du bord opposé de la carte, sur le même axe, en conservant sa direction (rebouclage / wrap-around). Si cette case d'arrivée est elle-même un obstacle, la règle de blocage (EX-06) s'applique.
 
 Scénario
-- Situation de départ : rover positionné sur une case en bordure de la carte, orienté vers l'extérieur de la carte.
+- Situation de départ : carte de largeur 5 (colonnes x=0 à x=4) et de hauteur 5 (lignes y=0 à y=4) ; rover en (4,3) orienté E (case en bordure est de la carte) ; la case (0,3) est libre.
 - Action : commande « avancer ».
-- Résultat attendu : manque — dépend de la décision du Product Owner entre immobilité (par analogie avec un obstacle), erreur, ou rebouclage sur le bord opposé (wrap-around).
+- Résultat attendu : la position finale retournée est (0,3) et la direction finale est E (le rover réapparaît sur le bord ouest de la même ligne).
 
 ## Conception proposée
 
@@ -111,7 +111,7 @@ Scénario
 - **Convention de repère** : axe x croissant vers l'est, axe y croissant vers le nord (convention cartésienne standard). Accepté (décision R-02, 2026-09-22).
 - **Traitement séquentiel des commandes** : chaque commande de la liste est appliquée l'une après l'autre à l'état courant (position, direction) ; une commande « avancer » vérifie l'état d'obstacle de la case cible avant de déplacer le rover, une commande de rotation ne modifie que la direction. Ce choix découle directement de l'intention — accepté.
 - **Gestion du blocage par obstacle** : une commande « avancer » vers une case occupée laisse la position inchangée et poursuit avec la commande suivante, sans lever d'erreur. Ce choix découle directement de l'intention (« pas d'erreur ni d'arrêt du programme ») — accepté.
-- **Gestion des bords de carte** : aucune proposition n'est faite tant que la question ouverte correspondante (réserve reprise en EX-09) n'est pas tranchée par le Product Owner.
+- **Gestion des bords de carte** : rebouclage (wrap-around) — une commande « avancer » qui mènerait hors des limites de la carte fait réapparaître le rover sur la case correspondante du bord opposé, sur le même axe, en conservant sa direction ; la carte doit donc porter des dimensions connues (largeur, hauteur) pour que ce calcul soit possible. Si la case d'arrivée est un obstacle, la règle de blocage (EX-06) s'applique de la même façon. Accepté (décision, 2026-09-22).
 - **Format du résultat retourné** : aucune proposition de structure n'est faite tant que la question ouverte correspondante (EX-08) n'est pas tranchée par le Product Owner.
 
 ## Réserves
@@ -142,7 +142,7 @@ Statut : résolue.
 
 ## Questions ouvertes
 
-- **Gestion des bords de carte** (arrêt, erreur, wrap-around ?) — reprise de l'intention, reste ouverte. Voir EX-09. Bloquante pour le passage à la phase Build : le comportement en bord de carte ne peut pas être implémenté ni testé tant qu'elle n'est pas tranchée.
+- **Gestion des bords de carte** (arrêt, erreur, wrap-around ?) — reprise de l'intention. Réponse humaine fournie par le Product Owner le 2026-09-22 : rebouclage (wrap-around). Voir EX-09 et « Gestion des bords de carte » en Conception proposée. N'est plus bloquante pour la phase Build.
 - **Langage/technologie imposé ou délai particulier ?** — reprise de l'intention, reste ouverte. Bloquante pour le passage à la phase Build : le choix technique conditionne la mise en œuvre.
 - **Format exact de la valeur retournée (structure de l'objet/tuple) ?** — reprise de l'intention, reste ouverte. Voir EX-08. Bloquante pour le passage à la phase Build : l'interface consommée par le système appelant ne peut pas être implémentée ni testée tant qu'elle n'est pas tranchée.
 
