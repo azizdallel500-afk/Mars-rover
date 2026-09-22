@@ -34,3 +34,27 @@ Each phase's work happens on its own branch (`claude/intent-<slug>` for Intent; 
 Lorsqu’une même erreur se répète deux fois, propose une instruction courte et précise pour l’éviter. Appuie-toi sur les erreurs observées et fais valider cette instruction avant de l’ajouter à CLAUDE.md.
 
 Si une instruction devient obsolète, propose sa correction ou son retrait et attends la validation avant de modifier le fichier.
+
+## Vérifier ton travail
+
+- `make test` lance les tests du simulateur.
+```
+ RUN  v2.1.9 /home/user/Mars-rover
+
+ ✓ tests/map.test.ts (6 tests) 5ms
+ ✓ tests/direction.test.ts (4 tests) 5ms
+ ✓ tests/simulate.test.ts (14 tests) 11ms
+ ✓ tests/index.test.ts (3 tests) 5ms
+
+ Test Files  4 passed (4)
+      Tests  27 passed (27)
+```
+- `make run` rejoue le scénario de démonstration.
+```
+Position finale : (1, 2)
+Orientation finale : E
+```
+
+Lance ces deux commandes avant de dire qu'une tâche est finie, et donne leur
+sortie dans ton compte rendu. Ne corrige jamais un test pour le faire passer,
+n'en supprime aucun et n'en ignore aucun.
