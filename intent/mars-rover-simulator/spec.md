@@ -143,7 +143,7 @@ Statut : résolue.
 ## Questions ouvertes
 
 - **Gestion des bords de carte** (arrêt, erreur, wrap-around ?) — reprise de l'intention. Réponse humaine fournie par le Product Owner le 2026-09-22 : rebouclage (wrap-around). Voir EX-09 et « Gestion des bords de carte » en Conception proposée. N'est plus bloquante pour la phase Build.
-- **Langage/technologie imposé ou délai particulier ?** — reprise de l'intention, reste ouverte. Bloquante pour le passage à la phase Build : le choix technique conditionne la mise en œuvre.
+- **Langage/technologie imposé ou délai particulier ?** — reprise de l'intention. Réponse humaine fournie par le Product Owner le 2026-09-22 : aucune technologie n'est strictement imposée ni de délai fixé ; le Product Owner exprime une préférence pour un langage performant, fiable et simple, en suggérant Python. La phase Build choisit la technologie finale en tenant compte de ces critères. N'est plus bloquante pour la phase Build.
 - **Format exact de la valeur retournée (structure de l'objet/tuple) ?** — reprise de l'intention, reste ouverte. Voir EX-08. Bloquante pour le passage à la phase Build : l'interface consommée par le système appelant ne peut pas être implémentée ni testée tant qu'elle n'est pas tranchée.
 
 ## Contexte de génération
