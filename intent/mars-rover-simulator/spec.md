@@ -89,9 +89,9 @@ Origine dans l'intention : « Le résultat (position et direction finales) est r
 Comportement attendu : après exécution de toutes les commandes de la liste, le simulateur retourne une valeur unique portant la position finale et la direction finale du rover, sans sortie destinée à une personne.
 
 Scénario
-- Situation de départ : rover ayant terminé l'exécution d'une liste de commandes quelconque.
+- Situation de départ : rover ayant terminé l'exécution d'une liste de commandes, en position finale (1,2) orienté E (cf. EX-07).
 - Action : fin de l'exécution de la liste de commandes.
-- Résultat attendu : manque — le format exact de la valeur retournée (structure de l'objet/tuple) n'est pas défini ; c'est une question ouverte de l'intention à trancher par le Product Owner avant la phase Build.
+- Résultat attendu : le simulateur retourne la chaîne `"1 2 E"` (position x, position y, direction, séparés par des espaces).
 
 ### EX-09 — Comportement en bord de carte
 
@@ -112,7 +112,7 @@ Scénario
 - **Traitement séquentiel des commandes** : chaque commande de la liste est appliquée l'une après l'autre à l'état courant (position, direction) ; une commande « avancer » vérifie l'état d'obstacle de la case cible avant de déplacer le rover, une commande de rotation ne modifie que la direction. Ce choix découle directement de l'intention — accepté.
 - **Gestion du blocage par obstacle** : une commande « avancer » vers une case occupée laisse la position inchangée et poursuit avec la commande suivante, sans lever d'erreur. Ce choix découle directement de l'intention (« pas d'erreur ni d'arrêt du programme ») — accepté.
 - **Gestion des bords de carte** : rebouclage (wrap-around) — une commande « avancer » qui mènerait hors des limites de la carte fait réapparaître le rover sur la case correspondante du bord opposé, sur le même axe, en conservant sa direction ; la carte doit donc porter des dimensions connues (largeur, hauteur) pour que ce calcul soit possible. Si la case d'arrivée est un obstacle, la règle de blocage (EX-06) s'applique de la même façon. Accepté (décision, 2026-09-22).
-- **Format du résultat retourné** : aucune proposition de structure n'est faite tant que la question ouverte correspondante (EX-08) n'est pas tranchée par le Product Owner.
+- **Format du résultat retourné** : chaîne de caractères formatée `"<x> <y> <direction>"` (position x, position y, direction, séparés par des espaces simples), par exemple `"2 3 N"`. Accepté (décision, 2026-09-22).
 
 ## Réserves
 
@@ -144,7 +144,7 @@ Statut : résolue.
 
 - **Gestion des bords de carte** (arrêt, erreur, wrap-around ?) — reprise de l'intention. Réponse humaine fournie par le Product Owner le 2026-09-22 : rebouclage (wrap-around). Voir EX-09 et « Gestion des bords de carte » en Conception proposée. N'est plus bloquante pour la phase Build.
 - **Langage/technologie imposé ou délai particulier ?** — reprise de l'intention. Réponse humaine fournie par le Product Owner le 2026-09-22 : aucune technologie n'est strictement imposée ni de délai fixé. Le Product Owner a d'abord évoqué une préférence pour Python, puis a révisé cette préférence le même jour vers un langage plus performant, adapté à une application web (sans nommer de langage précis). La phase Build choisit la technologie finale en tenant compte de ces critères (performance, fiabilité, adéquation à une application web). N'est plus bloquante pour la phase Build.
-- **Format exact de la valeur retournée (structure de l'objet/tuple) ?** — reprise de l'intention, reste ouverte. Voir EX-08. Bloquante pour le passage à la phase Build : l'interface consommée par le système appelant ne peut pas être implémentée ni testée tant qu'elle n'est pas tranchée.
+- **Format exact de la valeur retournée (structure de l'objet/tuple) ?** — reprise de l'intention. Réponse humaine fournie par le Product Owner le 2026-09-22 : une chaîne formatée `"<x> <y> <direction>"` (exemple : `"2 3 N"`). Voir EX-08 et « Format du résultat retourné » en Conception proposée. N'est plus bloquante pour la phase Build.
 
 ## Contexte de génération
 
