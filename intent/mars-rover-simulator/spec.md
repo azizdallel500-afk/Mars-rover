@@ -41,7 +41,7 @@ Comportement attendu : sur une commande « avancer », si la case immédiatement
 Scénario
 - Situation de départ : rover en (2,3) orienté N ; la case (2,4) est libre.
 - Action : commande « avancer ».
-- Résultat attendu : manque — le sens dans lequel les coordonnées évoluent pour chaque orientation (convention de repère) n'est pas confirmé par le Product Owner (voir réserve R-02) ; sous la convention proposée en Conception, la position finale serait (2,4) et la direction N.
+- Résultat attendu : la position finale retournée est (2,4) et la direction finale est N (convention de repère : x croissant vers l'est, y croissant vers le nord — décision R-02).
 
 ### EX-04 — Tourner à droite
 
@@ -81,7 +81,7 @@ Comportement attendu : le simulateur applique les commandes de la liste dans l'o
 Scénario
 - Situation de départ : rover en (0,0) orienté N ; aucune case du trajet n'est un obstacle.
 - Action : liste de commandes [« avancer », « avancer », « tourner à droite », « avancer »].
-- Résultat attendu : manque — dépend de la convention de repère non confirmée (réserve R-02) ; sous la convention proposée en Conception, la position finale serait (1,2) et la direction E.
+- Résultat attendu : la position finale retournée est (1,2) et la direction finale est E (convention de repère : x croissant vers l'est, y croissant vers le nord — décision R-02).
 
 ### EX-08 — Restitution du résultat final
 
@@ -108,7 +108,7 @@ Scénario
 - **Fonction pure de simulation** : le simulateur est conçu comme une fonction sans effet de bord, prenant en entrée (point de départ, orientation initiale, carte, liste de commandes) et renvoyant en sortie (position finale, direction finale). Ce choix découle directement de l'intention (« valeur retournée par une fonction/API ») — accepté.
 - **Modèle de carte** : la carte est interprétée comme une grille 2D où chaque case est soit libre, soit occupée par un obstacle, indépendamment du jeu de symboles utilisé en entrée (🟩/🌳 ou 🟫/🪨) ; les deux jeux sont traités comme fonctionnellement équivalents une fois convertis en cases libres/obstacles : 🟩 et 🟫 représentent une case libre, 🌳 et 🪨 représentent un obstacle. Accepté (décision R-01, 2026-09-22).
 - **Modèle d'orientation** : l'orientation est une énumération cyclique (N, E, S, W) ; « tourner à droite » avance d'un cran dans ce cycle, « tourner à gauche » recule d'un cran. Proposition à valider.
-- **Convention de repère** : proposition à valider (réserve R-02) — axe x croissant vers l'est, axe y croissant vers le nord (convention cartésienne standard), utilisée uniquement pour illustrer les scénarios EX-03 et EX-07 ci-dessus.
+- **Convention de repère** : axe x croissant vers l'est, axe y croissant vers le nord (convention cartésienne standard). Accepté (décision R-02, 2026-09-22).
 - **Traitement séquentiel des commandes** : chaque commande de la liste est appliquée l'une après l'autre à l'état courant (position, direction) ; une commande « avancer » vérifie l'état d'obstacle de la case cible avant de déplacer le rover, une commande de rotation ne modifie que la direction. Ce choix découle directement de l'intention — accepté.
 - **Gestion du blocage par obstacle** : une commande « avancer » vers une case occupée laisse la position inchangée et poursuit avec la commande suivante, sans lever d'erreur. Ce choix découle directement de l'intention (« pas d'erreur ni d'arrêt du programme ») — accepté.
 - **Gestion des bords de carte** : aucune proposition n'est faite tant que la question ouverte correspondante (réserve reprise en EX-09) n'est pas tranchée par le Product Owner.
@@ -133,8 +133,12 @@ Statut : résolue.
 Origine : l'intention ne précise pas le sens des axes (x, y) ni la correspondance entre une orientation cardinale et le déplacement de coordonnées qu'elle produit.
 Exigences concernées : EX-03, EX-07, EX-09.
 Conséquences : sans cette précision, les scénarios de déplacement ne peuvent pas indiquer de résultat observable exact.
-Décision attendue du Product Owner : confirmer (ou corriger) la convention proposée en Conception (x croissant vers l'est, y croissant vers le nord).
-Statut : ouverte.
+Décision : confirmée — x croissant vers l'est, y croissant vers le nord.
+Auteur : Product Owner.
+Date : 2026-09-22.
+Justification : confirmation directe de la convention proposée, sans réserve supplémentaire.
+Éléments modifiés : scénarios EX-03 et EX-07, choix « Convention de repère » en Conception proposée.
+Statut : résolue.
 
 ## Questions ouvertes
 
